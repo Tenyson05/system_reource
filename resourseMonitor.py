@@ -13,11 +13,11 @@ def get_size(bytes, suffix="B"):
 
 
 
-# platform information
+#################### platform information ####################
 print("="*40, "System Information", "="*40)
 # gathers system information
 uname = platform.uname()
-Retrieve specified information from uname
+# Retrieve specified information from uname
 print(f"System: {uname.system}")
 print(f"Node Name: {uname.node}")
 print(f"Release: {uname.release}")
@@ -25,13 +25,13 @@ print(f"Version: {uname.version}")
 print(f"Machine: {uname.machine}")
 print(f"Processor: {uname.processor}")
 
-#Getting boot time information
+#################### Boot time information ####################
 print("="*40, "Boot Time", "="*40)
 boot_timestamp = psutil.boot_time()
 bt = datetime.fromtimestamp(boot_timestamp)
 print(f"Boot Time: {bt.year}/{bt.month}/{bt.day} {bt.hour}:{bt.minute}:{bt.second}")
 
-# CPU information
+#################### CPU information ####################
 print("="*40, "CPU Info", "="*40)
 #Number of cores
 print("Physical cores:", psutil.cpu_count(logical=False))
