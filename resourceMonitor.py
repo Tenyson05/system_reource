@@ -59,8 +59,33 @@ print(f"Percentage: {svmem.percent}%")
 
 print("="*20, "SWAP", "="*20)
 #Get swap memory details if it exist
+# Memory the OS provide to a running app or process if there isnt enough ram to share 
 swap = psutil.swap_memory()
 print(f"Total: {get_size(swap.total)}")
 print(f"Free: {get_size(swap.free)}")
 print(f"Used: {get_size(swap.used)}")
 print(f"Percentage: {swap.percent}%")
+
+
+#################### Disk Usage ####################
+# Disk info
+print("="*40, "Disk Information", "="*40)
+#Get all disk partition
+partitions = psutil.disk_partitions()
+for partition in partitions:
+	print(f"=== Device: {partition.device} ===")
+	print(f" Mountpoint: {partition.mountpoint}")
+	print(f" File system type: {partition.fstype}")
+	try:
+		partition_usage = psutil.disk_usage(partition.mountpoint)
+	except PermissionError:
+		continue
+	
+	print(f" Total Size: {get_size(partition_usage.total)}")
+	print(f" Used: {get_size(partition_usage.used)}")
+	print(f" Free: {get_size(partition_usage.free)}")
+	print(f" Percentage: {partition_usage.percent}%")
+# get IO statistics since boot
+disk_io = psutil.disk_io_counters()
+print(f"Total read: {get_size(disk_io.read_bytes)}")
+print(f"Total write: {get_size(disk_io.write_bytes)}")
