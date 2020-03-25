@@ -57,7 +57,7 @@ print(f"Used: {get_size(svmem.used)}")
 print(f"Percentage: {svmem.percent}%")
 
 
-print("="*20, "SWAP", "="*20)
+print("="*40, "SWAP", "="*40)
 #Get swap memory details if it exist
 # Memory the OS provide to a running app or process if there isnt enough ram to share 
 swap = psutil.swap_memory()
@@ -89,3 +89,28 @@ for partition in partitions:
 disk_io = psutil.disk_io_counters()
 print(f"Total read: {get_size(disk_io.read_bytes)}")
 print(f"Total write: {get_size(disk_io.write_bytes)}")
+
+
+#################### Network usage ####################
+print("="*40, "Network Information", "="*40)
+# Get all network information
+if_addrs = psutil.net_if_addrs()
+# ds = psutil.net_connections()
+# da = psutil.net_if_stats()
+# dw = psutil.net_io_counters()
+for interface_name, interface_addresses in if_addrs.items():
+	for address in interface_addresses:
+		print(f"=== Interface: {interface_name} ===")
+		# getting the type of address your socket can communicate with
+		if str(address.family) == "AddressFamily.AF_INET":
+			print(f"IP Address: {address.address}")
+			print(f" Netmask: {address.netmask}")
+			print(f" Broadcast IP: {address.broadcast}")
+		elif str(address.family) == "AddressFamily.AF_PACKET":
+			print(f" MAC Address: {address.address}")
+			print(f" Netmask: {address.netmask}")
+			print(f" Broadcast MAC: {address.broadcast}")
+#get IO statistics since boot
+net_io = psutil.net_io_counters()
+print(f"Total Bytes Sent: {get_size(net_io.bytes_sent)}")
+print(f"Total Bytes Received: {get_size(net_io.bytes_recv)}")
